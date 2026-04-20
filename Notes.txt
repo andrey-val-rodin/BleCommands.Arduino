@@ -1,0 +1,4 @@
+Token Size Limit
+Maximum token length is 200 bytes.
+Tokens longer than 200 bytes will be truncated or cause undefined behavior.
+This limit applies both to commands (client→server) and responses (server→client).
