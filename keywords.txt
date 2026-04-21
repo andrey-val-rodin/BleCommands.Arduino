@@ -1,0 +1,36 @@
+#######################################
+# Syntax Coloring Map For ArduinoBLE
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+BLECommandsServer	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+CommandHandler	KEYWORD2
+FallbackHandler	KEYWORD2
+DefaultFallbackHandler	KEYWORD2
+begin	KEYWORD2
+end	KEYWORD2
+poll	KEYWORD2
+getFallbackHandler	KEYWORD2
+setFallbackHandler	KEYWORD2
+onCommand	KEYWORD2
+onCommand	KEYWORD2
+onTokenReceived	KEYWORD2
+send	KEYWORD2
+
+#######################################
+# Structures (KEYWORD3)
+#######################################
+
+Command	KEYWORD3
+
+#######################################
+# Constants (LITERAL1)
+#######################################
