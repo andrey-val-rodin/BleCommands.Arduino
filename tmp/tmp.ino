@@ -2,6 +2,16 @@
 
 BLECommandsServer server;
 
+String handleStatus(const String&, const String&) {
+    return "READY";
+}
+
+String handleGet(const String&, const String& args) {
+    if (args == "MAC") return BLE.address();
+    if (args == "NAME") return "BLECommands device";
+    return "";
+}
+
 void setup() {
   Serial.begin(115200);
   while (!Serial);
@@ -12,16 +22,12 @@ void setup() {
   }
 
   server
-  .onCommand("STATUS", [](const String& command, const String& args) -> String { return "READY"; })
-  .onCommand("GET", [](const String& command, const String& args) -> String {
-    if (args == "MAC") {
-      return BLE.address();
-    } else if (args == "NAME") {
-      return "BLECommands device";
-    }
-
-    return "";
-  });
+    .onCommand("ECHO", [](const String& command, const String& args) -> String {
+      return args.isEmpty() ? command : command + " " + args;
+    })
+    .onCommand("PING", [](const String& command, const String& args) -> String { return "PONG"; })
+    .onCommand("STATUS", handleStatus)
+    .onCommand("GET", handleGet);
 
   Serial.println("Successfully initialized");
 }

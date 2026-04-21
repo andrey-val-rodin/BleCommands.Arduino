@@ -4,8 +4,7 @@
 #include <map>
 
 #define MAX_TOKEN_SIZE 200
-#define TERMINATOR '\n'
-
+#define TERMINATOR "\n"
 #define SERVICE_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B901"
 #define COMMAND_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B902"
 #define RESPONSE_UUID   "DB341FB3-8977-4C2D-AC6C-74540BD8B903"
@@ -16,7 +15,6 @@ using CommandHandler = std::function<String(const String&, const String&)>;
 struct Command {
     String commandName;
     String arguments;
-    
     bool isValid() const { return commandName.length() > 0; }
 };
 
@@ -25,20 +23,21 @@ public:
     BLECommandsServer();
     virtual ~BLECommandsServer();
 
-    virtual bool begin(const char *localName);
+    virtual bool begin(const char* deviceName);
+    virtual void end();
     virtual void poll();
     virtual void poll(unsigned long timeout);
 
     BLECommandsServer& onCommand(const String& commandName, CommandHandler handler);
     BLECommandsServer& onCommand(const char* commandName, CommandHandler handler);
 
-    virtual void onTokenReceived(String token);
+    virtual void onTokenReceived(String& token);
 
     virtual void send(const String& token);
 
 protected:
     Command parseToken(const String& token);
-    void processCommand(Command command);
+    void processCommand(Command& command);
     void writeResponse(const String& response);
     bool isTokenValid(const String& token);
 
