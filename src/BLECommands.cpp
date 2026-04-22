@@ -105,20 +105,12 @@ Command BLECommandsServer::parseToken(const String& token) {
     return result;
 }
 
-void BLECommandsServer::send(const String& token) {
-    if (isTokenValid(token)) {
-        listeningCharacteristic.writeValue(token + TERMINATOR);
-    }
+int BLECommandsServer::send(const String& token) {
+    return listeningCharacteristic.writeValue(token + TERMINATOR);
 }
 
-void BLECommandsServer::writeResponse(const String& response) {
-    if (isTokenValid(response)) {
-        responseCharacteristic.writeValue(response + TERMINATOR);
-    }
-}
-
-bool BLECommandsServer::isTokenValid(const String& token) {
-    return token.length() <= MAX_TOKEN_SIZE;
+int BLECommandsServer::writeResponse(const String& response) {
+    return responseCharacteristic.writeValue(response + TERMINATOR);
 }
 
 void BLECommandsServer::staticCommandHandler(BLEDevice central, BLECharacteristic characteristic) {

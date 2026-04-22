@@ -10,6 +10,8 @@ An Arduino library on the base of ArduinoBLE for implementing text-based command
 - **Fluent interface** for elegant code
 - **Platform independent** — works with all boards supported by ArduinoBLE
 
+For more information about this library, visit https://github.com/andrey-val-rodin/BleCommands.
+
 ## Example
 ```c++
 #include <BLECommands.h>

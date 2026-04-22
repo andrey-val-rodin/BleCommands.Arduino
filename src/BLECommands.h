@@ -4,7 +4,6 @@
 #include <map>
 #include <functional>
 
-#define MAX_TOKEN_SIZE 200
 #define TERMINATOR "\n"
 #define SERVICE_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B901"
 #define COMMAND_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B902"
@@ -40,7 +39,7 @@ public:
 
     virtual void onTokenReceived(String& token);
 
-    virtual void send(const String& token);
+    virtual int send(const String& token);
 
     BLEService service;
     BLEStringCharacteristic commandCharacteristic;
@@ -49,8 +48,7 @@ public:
 
 protected:
     Command parseToken(const String& token);
-    void writeResponse(const String& response);
-    bool isTokenValid(const String& token);
+    int writeResponse(const String& response);
 
 private:
     static BLECommandsServer* _instance;
