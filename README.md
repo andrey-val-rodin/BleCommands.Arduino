@@ -42,3 +42,5 @@ void loop() {
     server.poll();
 }
 ```
+
+>You can add command handlers as external functions or lambdas. In any case, remember to return a value from the function, otherwise the sketch's behavior will be unpredictable.
