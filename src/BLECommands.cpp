@@ -7,10 +7,10 @@ String DefaultFallbackHandler(const String& token) {
 }
 
 BLECommandsServer::BLECommandsServer()
-    : _service(SERVICE_UUID),
-      _commandCharacteristic(COMMAND_UUID, BLEWrite | BLEWriteWithoutResponse, 512),
-      _responseCharacteristic(RESPONSE_UUID, BLENotify | BLEIndicate, 512),
-      _listeningCharacteristic(LISTENING_UUID, BLENotify | BLEIndicate, 512)
+    : service(SERVICE_UUID),
+      commandCharacteristic(COMMAND_UUID, BLEWrite | BLEWriteWithoutResponse, 512),
+      responseCharacteristic(RESPONSE_UUID, BLENotify | BLEIndicate, 512),
+      listeningCharacteristic(LISTENING_UUID, BLENotify | BLEIndicate, 512)
 {
     _fallbackHandler = DefaultFallbackHandler;
 }
@@ -35,12 +35,12 @@ bool BLECommandsServer::begin(const char* deviceName)
     if (!BLE.setLocalName(deviceName)) return false;
     if (!BLE.setAdvertisedService(SERVICE_UUID)) return false;
 
-    _service.addCharacteristic(_commandCharacteristic);
-    _service.addCharacteristic(_responseCharacteristic);
-    _service.addCharacteristic(_listeningCharacteristic);
-    BLE.addService(_service);
+    service.addCharacteristic(commandCharacteristic);
+    service.addCharacteristic(responseCharacteristic);
+    service.addCharacteristic(listeningCharacteristic);
+    BLE.addService(service);
 
-    _commandCharacteristic.setEventHandler(BLEWritten, staticCommandHandler);
+    commandCharacteristic.setEventHandler(BLEWritten, staticCommandHandler);
 
     // Start advertising
     return BLE.advertise();
@@ -49,10 +49,6 @@ bool BLECommandsServer::begin(const char* deviceName)
 void BLECommandsServer::end() { BLE.end(); }
 void BLECommandsServer::poll() { BLE.poll(); }
 void BLECommandsServer::poll(unsigned long timeout) { BLE.poll(timeout); }
-
-FallbackHandler BLECommandsServer::getFallbackHandler() const {
-    return _fallbackHandler;
-}
 
 BLECommandsServer& BLECommandsServer::setFallbackHandler(FallbackHandler handler) {
     if (handler) {
@@ -111,13 +107,13 @@ Command BLECommandsServer::parseToken(const String& token) {
 
 void BLECommandsServer::send(const String& token) {
     if (isTokenValid(token)) {
-        _listeningCharacteristic.writeValue(token + TERMINATOR);
+        listeningCharacteristic.writeValue(token + TERMINATOR);
     }
 }
 
 void BLECommandsServer::writeResponse(const String& response) {
     if (isTokenValid(response)) {
-        _responseCharacteristic.writeValue(response + TERMINATOR);
+        responseCharacteristic.writeValue(response + TERMINATOR);
     }
 }
 

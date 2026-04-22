@@ -32,7 +32,7 @@ public:
     virtual void poll();
     virtual void poll(unsigned long timeout);
 
-    FallbackHandler getFallbackHandler() const;
+    FallbackHandler getFallbackHandler() const { return _fallbackHandler; }
     BLECommandsServer& setFallbackHandler(FallbackHandler handler);
 
     BLECommandsServer& onCommand(const String& commandName, CommandHandler handler);
@@ -42,6 +42,11 @@ public:
 
     virtual void send(const String& token);
 
+    BLEService service;
+    BLEStringCharacteristic commandCharacteristic;
+    BLEStringCharacteristic responseCharacteristic;
+    BLEStringCharacteristic listeningCharacteristic;
+
 protected:
     Command parseToken(const String& token);
     void writeResponse(const String& response);
@@ -50,10 +55,6 @@ protected:
 private:
     static BLECommandsServer* _instance;
 
-    BLEService _service;
-    BLEStringCharacteristic _commandCharacteristic;
-    BLEStringCharacteristic _responseCharacteristic;
-    BLEStringCharacteristic _listeningCharacteristic;
     FallbackHandler _fallbackHandler;
     std::map<String, CommandHandler> _handlers;
 
