@@ -13,6 +13,8 @@
     TOGGLE -> Toggles LED state, returns "OK"
     STATE  -> Returns current state: "ON" or "OFF"
     (any other command) -> Returns "UNKNOWN: '<command>'"
+
+  See corresponded .NET sample: https://github.com/andrey-val-rodin/BleCommands/tree/main/Source/Samples/Console
 */
 
 #include <BLECommands.h>
@@ -64,5 +66,5 @@ void setup() {
 }
 
 void loop() {
-    server.poll();
+  server.poll();
 }
