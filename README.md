@@ -8,6 +8,7 @@ An Arduino library on the base of ArduinoBLE for implementing text-based command
 - **Automatic token parsing** with command name and arguments extraction
 - **Configurable fallback handler** for unknown/invalid commands
 - **Fluent interface** for elegant code
+- **Sending** long UTF-8 encoded strings to the client
 - **Platform independent** — works with all boards supported by ArduinoBLE
 
 For more information about this library, visit https://github.com/andrey-val-rodin/BleCommands.
