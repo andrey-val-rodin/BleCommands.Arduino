@@ -67,7 +67,7 @@ BLECommandsServer& BLECommandsServer::onCommand(const char* commandName, Command
 }
 
 void BLECommandsServer::onTokenReceived(String& token) {
-    if (token.length() > 0 && token.endsWith(TERMINATOR)) {
+    if (token.length() > 0 && token[token.length() - 1] == TERMINATOR) {
         token.remove(token.length() - 1);
     }
 
@@ -106,11 +106,66 @@ Command BLECommandsServer::parseToken(const String& token) {
 }
 
 int BLECommandsServer::send(const String& token) {
-    return listeningCharacteristic.writeValue(token + TERMINATOR);
+    return write(listeningCharacteristic, token);
 }
 
 int BLECommandsServer::writeResponse(const String& response) {
-    return responseCharacteristic.writeValue(response + TERMINATOR);
+    return write(responseCharacteristic, response);
+}
+
+int BLECommandsServer::write(BLECharacteristic& characteristic, const String& value) {
+    if (!characteristic.subscribed()) return 0;
+
+    const size_t MAX_CHUNK_SIZE = 200;
+    const int len = value.length();
+    const uint8_t* data = (const uint8_t*)value.c_str();
+    const size_t TERMINATOR_SIZE = 1;
+    uint8_t buf[MAX_CHUNK_SIZE + TERMINATOR_SIZE];    
+
+    if (len < MAX_CHUNK_SIZE) {
+        memcpy(buf, data, len);
+        buf[len] = TERMINATOR;
+        return characteristic.writeValue(buf, len + 1);
+    }
+
+    int pos = 0;
+    while (true) {
+        int remaining = len - pos;
+        bool isLast = (remaining < MAX_CHUNK_SIZE);
+        int chunkLen = isLast ? remaining : MAX_CHUNK_SIZE;
+
+        if (!isLast && pos + chunkLen < len) {
+            // UTF-8 correction: don't cut characters
+            while (chunkLen > 0 && (data[pos + chunkLen] & 0xC0) == 0x80) {
+                chunkLen--;
+            }
+
+            if (chunkLen <= 0) { // corrupted UTF-8 string
+                // All bytes from pos to len-1 are continuation bytes (invalid UTF-8 or mid-sequence start)
+                // Send at least 1 byte to avoid infinite loop
+                chunkLen = 1;
+            }
+        }
+
+        memcpy(buf, data + pos, chunkLen);
+        pos += chunkLen;
+
+        int writeLen;
+        if (isLast) {
+            buf[chunkLen] = TERMINATOR;
+            writeLen = chunkLen + 1;
+        } else {
+            writeLen = chunkLen;
+        }
+
+        if (!characteristic.writeValue(buf, writeLen)) {
+            return 0;
+        }
+
+        if (isLast) break;
+    }
+
+    return 1;
 }
 
 void BLECommandsServer::staticCommandHandler(BLEDevice central, BLECharacteristic characteristic) {

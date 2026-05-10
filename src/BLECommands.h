@@ -4,11 +4,12 @@
 #include <map>
 #include <functional>
 
-#define TERMINATOR "\n"
 #define SERVICE_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B901"
 #define COMMAND_UUID    "DB341FB3-8977-4C2D-AC6C-74540BD8B902"
 #define RESPONSE_UUID   "DB341FB3-8977-4C2D-AC6C-74540BD8B903"
 #define LISTENING_UUID  "DB341FB3-8977-4C2D-AC6C-74540BD8B904"
+
+const char TERMINATOR = '\n';
 
 using CommandHandler = std::function<String(const String&, const String&)>;
 using FallbackHandler = std::function<String(const String&)>;
@@ -49,6 +50,7 @@ public:
 protected:
     Command parseToken(const String& token);
     int writeResponse(const String& response);
+    int write(BLECharacteristic& characteristic, const String& value);
 
 private:
     static BLECommandsServer* _instance;
