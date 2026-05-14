@@ -13,7 +13,7 @@ An Arduino library on the base of ArduinoBLE for implementing text-based command
 
 For more information about this library, visit https://github.com/andrey-val-rodin/BleCommands.
 
-## Example
+## Commands
 ```c++
 #include <BLECommands.h>
 
@@ -45,3 +45,10 @@ void loop() {
 ```
 
 >You can add command handlers as external functions or lambdas. In any case, remember to return a value from the function, otherwise the sketch's behavior will be unpredictable.
+
+## Messaging
+You can send periodic messages to the client:
+```c++
+server.send("POS " + String(currentPos));
+```
+The length of messages and responses to commands is not limited; texts are encoded as UTF-8 strings.
