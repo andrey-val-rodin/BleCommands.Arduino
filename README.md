@@ -1,6 +1,6 @@
 # BLECommands
 
-An Arduino library on the base of ArduinoBLE for implementing text-based command/response protocols over Bluetooth Low Energy (BLE). Designed to work seamlessly with the accompanying .NET **BLECommands** client library.
+An Arduino library on the base of ArduinoBLE for implementing text-based command/response protocols over Bluetooth Low Energy (BLE). Designed to work seamlessly with the accompanying .NET **[BLECommands](https://github.com/andrey-val-rodin/BleCommands)** client library.
 
 ## Features
 
