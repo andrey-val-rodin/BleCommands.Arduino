@@ -1,6 +1,7 @@
 #include "BLECommands.h"
 
 BLECommandsServer* BLECommandsServer::_instance = nullptr;
+char TERMINATOR = '\n';
 
 String DefaultFallbackHandler(const String& token) {
     return token.length() == 0 ? "INVALID" : "UNKNOWN";

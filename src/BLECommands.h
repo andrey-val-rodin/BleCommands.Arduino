@@ -9,7 +9,7 @@
 #define RESPONSE_UUID   "DB341FB3-8977-4C2D-AC6C-74540BD8B903"
 #define LISTENING_UUID  "DB341FB3-8977-4C2D-AC6C-74540BD8B904"
 
-const char TERMINATOR = '\n';
+extern char TERMINATOR;
 
 using CommandHandler = std::function<String(const String&, const String&)>;
 using FallbackHandler = std::function<String(const String&)>;

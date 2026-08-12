@@ -52,3 +52,10 @@ You can send periodic messages to the client:
 server.send("POS " + String(currentPos));
 ```
 The length of messages and responses to commands is not limited; texts are encoded as UTF-8 strings.
+
+## Token delimiter
+The library uses '\n' as the default delimiter to mark the end of a message or command response. You can change it if needed:
+```c++
+TERMINATOR = '\x04'; // EOT
+```
+Don't forget to specify the same delimiter on the client side.
