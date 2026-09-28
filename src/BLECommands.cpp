@@ -34,7 +34,7 @@ bool BLECommandsServer::begin(const char* deviceName)
 
     if (!BLE.begin()) return false;
     if (!BLE.setLocalName(deviceName)) return false;
-    if (!BLE.setAdvertisedService(SERVICE_UUID)) return false;
+    BLE.setDeviceName(deviceName);
 
     service.addCharacteristic(commandCharacteristic);
     service.addCharacteristic(responseCharacteristic);
