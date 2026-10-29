@@ -68,10 +68,6 @@ BLECommandsServer& BLECommandsServer::onCommand(const char* commandName, Command
 }
 
 void BLECommandsServer::onTokenReceived(String& token) {
-    if (token.length() > 0 && token[token.length() - 1] == TERMINATOR) {
-        token.remove(token.length() - 1);
-    }
-
     if (token.length() == 0) {
         writeResponse(_fallbackHandler(token));
         return;
