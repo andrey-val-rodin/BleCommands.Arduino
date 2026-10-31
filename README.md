@@ -1,6 +1,9 @@
 # BLECommands
 
-An Arduino library on the base of ArduinoBLE for implementing text-based command/response protocols over Bluetooth Low Energy (BLE). Designed to work seamlessly with the accompanying .NET **[BLECommands](https://github.com/andrey-val-rodin/BleCommands)** client library.
+An Arduino library on the base of ArduinoBLE for implementing text-based command/response protocols over Bluetooth Low Energy (BLE). It is the **server side** of the BleCommands protocol and works with any compatible client:
+
+- **[BleCommands](https://github.com/andrey-val-rodin/BleCommands)** — .NET client library (MAUI, WPF, WinForms).
+- **[BleCommands.JS](https://github.com/andrey-val-rodin/BleCommands.JS)** — browser client library built on Web Bluetooth.
 
 ## Features
 
@@ -11,7 +14,7 @@ An Arduino library on the base of ArduinoBLE for implementing text-based command
 - **Sending** unlimited-length UTF-8 strings to the client
 - **Platform independent** — works with all boards supported by ArduinoBLE
 
-For more information about this library, visit https://github.com/andrey-val-rodin/BleCommands.
+For more information about the protocol, visit https://github.com/andrey-val-rodin/BleCommands.
 
 ## Commands
 ```c++
@@ -59,3 +62,11 @@ The library uses '\n' as the default delimiter to mark the end of a message or c
 TERMINATOR = '\x04'; // EOT
 ```
 Don't forget to specify the same delimiter on the client side.
+
+## Clients
+Any client implementing the same text protocol can talk to a device running this library. Two official clients are available:
+
+| Client | Platform | Repository |
+| :--- | :--- | :--- |
+| **BleCommands** | .NET (MAUI, WPF, WinForms) | [andrey-val-rodin/BleCommands](https://github.com/andrey-val-rodin/BleCommands) |
+| **BleCommands.JS** | Browser (Web Bluetooth) | [andrey-val-rodin/BleCommands.JS](https://github.com/andrey-val-rodin/BleCommands.JS) |
